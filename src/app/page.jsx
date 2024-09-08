@@ -13,14 +13,26 @@ export default function App() {
 				"https://science-api.vercel.app/vocability.json",
 			);
 			const result = await response.json();
-			const foundVocabulary = result.find((vocab) => vocab.name === user);
+
+			// Ubah semua nama kosakata menjadi lowercase
+			const normalizedData = result.map((vocab) => ({
+				...vocab,
+				name: vocab.name.toLowerCase(),
+			}));
+
+			const userInputLower = user.toLowerCase();
+			const foundVocabulary = normalizedData.find(
+				(vocab) => vocab.name === userInputLower,
+			);
 			if (foundVocabulary) {
 				setData(foundVocabulary.description);
 			} else {
 				setData("Tidak ditemukan");
 			}
 		};
-		fetchData();
+		if (user) {
+			fetchData();
+		}
 	}, [user]);
 
 	const handleSearch = (e) => {
@@ -30,7 +42,17 @@ export default function App() {
 				"https://science-api.vercel.app/vocability.json",
 			);
 			const result = await response.json();
-			const foundVocabulary = result.find((vocab) => vocab.name === user);
+
+			// Ubah semua nama kosakata menjadi lowercase
+			const normalizedData = result.map((vocab) => ({
+				...vocab,
+				name: vocab.name.toLowerCase(),
+			}));
+
+			const userInputLower = user.toLowerCase();
+			const foundVocabulary = normalizedData.find(
+				(vocab) => vocab.name === userInputLower,
+			);
 			if (foundVocabulary) {
 				setData(foundVocabulary.description);
 			} else {
@@ -58,7 +80,7 @@ export default function App() {
 						type="text"
 						name="vocabulary"
 						id="vocabulary"
-						className="focus:outline-3 mr-4 w-full cursor-pointer rounded-md border-gray-300 bg-gray-300 px-3 py-3 placeholder:text-xl placeholder:font-bold placeholder:text-gray-500/50 focus:border-blue-500 focus:outline-none focus:outline-blue-500 focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:focus:border-blue-700 dark:focus:ring-blue-700"
+						className="focus:outline-3 mr-4 w-full cursor-pointer rounded-md border-gray-300 bg-gray-300 px-3 py-3 placeholder:text-xl placeholder:font-bold placeholder:text-gray-500/50 focus:border-blue-500 focus:outline-none focus:outline-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:focus:border-blue-700 dark:focus:ring-blue-700 sm:text-sm"
 						ref={userRef}
 						value={user}
 						onChange={(e) => setUser(e.target.value)}
